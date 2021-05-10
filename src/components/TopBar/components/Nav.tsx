@@ -25,6 +25,13 @@ const Nav: React.FC = () => {
 			>
 				Menu
 			</StyledLink>
+			<StyledLink
+				exact
+				activeClassName="active"
+				to={{ pathname: '/vault', search: '?ref=' + refer }}
+			>
+				Vault
+			</StyledLink>
 			<StyledAbsoluteLink
 				href="https://snapshot.page/#/baovotes.eth"
 				target="_blank"

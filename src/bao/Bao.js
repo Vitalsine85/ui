@@ -41,6 +41,8 @@ export class Bao {
 		this.wethAddress = contractAddresses.weth[networkId]
 		this.wethPriceAddress = contractAddresses.wethPrice[networkId]
 		this.baoPriceAddress = contractAddresses.baoPrice[networkId]
+		this.vaultAddress = contractAddresses.vault[networkId]
+
 		console.log(`network Id: ${networkId}`, contractAddresses)
 	}
 

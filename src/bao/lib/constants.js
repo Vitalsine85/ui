@@ -269,6 +269,10 @@ export const contractAddresses = {
 		1: '0xb2AaEDe065D3ede8Db0C7C25DD69B2A0d0ee4Da3',
 		4: '0x649AfCf002742cf93CbE1F8C3832FD05ACA2D8ea',
 	},
+	vault: {
+		1: '',
+		4: '',
+	},
 }
 //
 /*
@@ -2887,11 +2891,11 @@ export const supportedPools = [
 			1: '0x1b073382e63411e3bcffe90ac1b9a43fefa1ec6f',
 		},
 		tokenDecimals: 8,
-		name: 'BitPanda Express',
+		name: 'BitBao Express',
 		symbol: 'BEST-ETH UNIV2',
 		tokenSymbol: 'BEST',
 		poolType: 'archived',
-		icon: '/panda.png',
+		icon: '/bao.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/BEST/ETH',
 	},

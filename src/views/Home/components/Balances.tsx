@@ -188,7 +188,7 @@ const Footnote = styled.div`
 	border-top: solid 1px ${(props) => props.theme.color.grey[300]};
 `
 const FootnoteValue = styled.div`
-	font-family: 'Roboto Mono', monospace;
+	font-family: 'Vaultto Mono', monospace;
 	float: right;
 `
 
