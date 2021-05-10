@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js/bignumber'
+import { PoolType } from '../../contexts/Farms/types'
 
 export const SUBTRACT_GAS_LIMIT = 100000
 
@@ -292,6 +293,23 @@ BAO Address on mainnet for reference
 11 YFI  0x2fdbadf3c4d5a8666bc06645b8358ab803996e28
 12 SUSHI 0xce84867c3c02b05dc570d0135103d3fb9cc19433
 */
+
+export interface SupportedPool {
+	pid: number
+	lpAddresses: {
+	  1: string
+	}
+	tokenAddresses: {
+	  1: string
+	}
+	tokenDecimals: number
+	name: string
+	symbol: string
+	tokenSymbol: string
+	icon: string
+	refUrl: string
+	poolType?: PoolType
+  }
 
 export const supportedPools = [
 	{

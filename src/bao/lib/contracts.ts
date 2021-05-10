@@ -69,17 +69,14 @@ export interface FarmableSupportedPool extends SupportedPool {
 	  this.wethPrice = new this.web3.eth.Contract(ChainOracle as AbiItem[])
 	  this.baoPrice = new this.web3.eth.Contract(UniOracleABI as AbiItem[])
   
-	  this.pools =
-		networkId == 1
-		  ? supportedPools.map((pool) =>
+	  this.pools = supportedPools.map((pool) =>
 			  Object.assign(pool, {
 				lpAddress: pool.lpAddresses[networkId],
 				tokenAddress: pool.tokenAddresses[networkId],
 				lpContract: new this.web3.eth.Contract(UNIV2PairAbi as AbiItem[]),
 				tokenContract: new this.web3.eth.Contract(ERC20Abi as AbiItem[]),
 			  }),
-			)
-		  : undefined
+	  )
   
 	  this.setProvider(provider, networkId)
 	  this.setDefaultAccount(this.web3.eth.defaultAccount)
