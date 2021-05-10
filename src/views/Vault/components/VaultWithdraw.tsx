@@ -20,7 +20,8 @@ import useWithdraw from '../../../hooks/useWithdrawVault'
 import useAllowanceVault from '../../../hooks/useAllowanceVault'
 import useApproveVault from '../../../hooks/useApproveVault'
 import TokenInput from '../../../components/TokenInput'
-import Spacer from '../../components/Spacer'
+import Spacer from '../../../components/Spacer'
+import StyledValue from '../../../components/Value'
 
 
 interface VaultWithdraw {

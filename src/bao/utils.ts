@@ -34,7 +34,7 @@ export const getBaoAddress = (bao: Bao): string => {
 }
 
 export const getVaultAddress = (bao: Bao): string => {
-	return bao && bao.vaultAddress
+	return bao && bao.roboVaultAddress
 }
 
 export const getWethContract = (bao: Bao): Contract => {
@@ -56,7 +56,7 @@ export const getBaoContract = (bao: Bao): Contract => {
 	return bao && bao.contracts && bao.contracts.bao
 }
 export const getVaultContract = (bao: Bao): Contract => {
-	return bao && bao.contracts && bao.contracts.vault
+	return bao && bao.contracts && bao.contracts.roboVault
 }
 
 export const getFarms = (bao: Bao): Farm[] => {
@@ -123,51 +123,51 @@ export const getLockedEarned = async (
 	return baoContract.methods.lockOf(account).call()
 }
 
-export const getTotalLPWbnbValue = async (
+export const getTotalLPWethValue = async (
 	masterChefContract: Contract,
-	wbnbContract: Contract,
+	wethContract: Contract,
 	lpContract: Contract,
 	tokenContract: Contract,
 	tokenDecimals: number,
 	pid: number,
 ): Promise<{
 	tokenAmount: BigNumber
-	wbnbAmount: BigNumber
-	totalWbnbValue: BigNumber
-	tokenPriceInWbnb: BigNumber
+	wethAmount: BigNumber
+	totalWethValue: BigNumber
+	tokenPriceInWeth: BigNumber
 	poolWeight: BigNumber
 }> => {
 	const [
 		tokenAmountWholeLP,
 		balance,
 		totalSupply,
-		lpContractWbnb,
+		lpContractWeth,
 		poolWeight,
 	] = await Promise.all([
 		tokenContract.methods.balanceOf(lpContract.options.address).call(),
 		lpContract.methods.balanceOf(masterChefContract.options.address).call(),
 		lpContract.methods.totalSupply().call(),
-		wbnbContract.methods.balanceOf(lpContract.options.address).call(),
+		wethContract.methods.balanceOf(lpContract.options.address).call(),
 		getPoolWeight(masterChefContract, pid),
 	])
 
 	// Return p1 * w1 * 2
 	const portionLp = new BigNumber(balance).div(new BigNumber(totalSupply))
-	const lpWbnbWorth = new BigNumber(lpContractWbnb)
-	const totalLpWbnbValue = portionLp.times(lpWbnbWorth).times(new BigNumber(2))
+	const lpWethWorth = new BigNumber(lpContractWeth)
+	const totalLpWethValue = portionLp.times(lpWethWorth).times(new BigNumber(2))
 	// Calculate
 	const tokenAmount = new BigNumber(tokenAmountWholeLP)
 		.times(portionLp)
 		.div(new BigNumber(10).pow(tokenDecimals))
 
-	const wbnbAmount = new BigNumber(lpContractWbnb)
+	const wethAmount = new BigNumber(lpContractWeth)
 		.times(portionLp)
 		.div(new BigNumber(10).pow(18))
 	return {
 		tokenAmount,
-		wbnbAmount,
-		totalWbnbValue: totalLpWbnbValue.div(new BigNumber(10).pow(18)),
-		tokenPriceInWbnb: wbnbAmount.div(tokenAmount),
+		wethAmount,
+		totalWethValue: totalLpWethValue.div(new BigNumber(10).pow(18)),
+		tokenPriceInWeth: wethAmount.div(tokenAmount),
 		poolWeight: poolWeight,
 	}
 }
@@ -258,8 +258,8 @@ export const getVaulted = async (
 }
 
 export const getWethPrice = async (bao: Bao): Promise<BigNumber> => {
-	const wbnbPriceContract = getWethPriceContract(bao)
-	const amount = await wbnbPriceContract.methods.latestAnswer().call()
+	const wethPriceContract = getWethPriceContract(bao)
+	const amount = await wethPriceContract.methods.latestAnswer().call()
 	return new BigNumber(amount)
 }
 
@@ -373,29 +373,13 @@ export const withdraw = async (
 }
 
 export const getWithdrawableBalance = async (
-	rhinoStakingContract: Contract,
+	roboVaultContract: Contract,
 	account: string,
 	tokenAddress: string,
 ): Promise<BigNumber> => {
 	try {
-		const amount = await rhinoStakingContract.methods
+		const amount = await roboVaultContract.methods
 			.withdrawableBalance(account, tokenAddress)
-			.call()
-		console.log('withdrawableBalance', amount)
-		return new BigNumber(amount)
-	} catch {
-		return new BigNumber(0)
-	}
-}
-
-export const swapWithFee = async (
-	rhinoStakingContract: Contract,
-	fromTokenAddress: string,
-	toTokenAddress: string,
-): Promise<BigNumber> => {
-	try {
-		const amount = await rhinoStakingContract.methods
-			.swapWithFee(fromTokenAddress, toTokenAddress)
 			.call()
 		console.log('withdrawableBalance', amount)
 		return new BigNumber(amount)

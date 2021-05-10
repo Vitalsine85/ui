@@ -269,8 +269,8 @@ export const contractAddresses = {
 		1: '0xb2AaEDe065D3ede8Db0C7C25DD69B2A0d0ee4Da3',
 		4: '0x649AfCf002742cf93CbE1F8C3832FD05ACA2D8ea',
 	},
-	vault: {
-		1: '',
+	roboVault: {
+		1: '0xb52f322f7534d60807700bd8414d3c498d4cef52',
 		4: '',
 	},
 }

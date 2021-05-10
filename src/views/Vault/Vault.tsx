@@ -29,7 +29,7 @@ import useBao from '../../hooks/useBao'
 import { leftPad } from 'web3-utils'
 
 
-const Vault: React.FC = () => {
+const RoboVault: React.FC = () => {
 	const { path } = useRouteMatch()
 	const { account } = useWallet()
 	const [onPresentWalletProviderModal] = useModal(<WalletProviderModal />)
@@ -245,4 +245,4 @@ const StyledValue = styled.div`
 	font-weight: 700;
 `
 
-export default Vault
+export default RoboVault
