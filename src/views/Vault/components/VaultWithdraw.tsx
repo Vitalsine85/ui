@@ -82,7 +82,6 @@ const VaultWithdraw: React.FC<VaultWithdrawProps> = ({
 		}
 	}, [onApprove, setRequestedApproval])
 
-	const tokenBalance = useTokenBalance(vaultContract.options.address)
 	const vaultBalance = useVaultBalance()
 
 	const handleChange = useCallback(

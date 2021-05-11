@@ -58,7 +58,7 @@ const RoboVault: React.FC = () => {
 	const vaultSharesName = 'Vault Shares'
 	const vaultShares = useTokenBalance(vaultAddress)
 
-	const tokenBalance = useTokenBalance(vaultContract.options.address)
+	const tokenBalance = useTokenBalance(poolAddress)
 	const vaultBalance = useVaultBalance()
 
 	useEffect(() => {

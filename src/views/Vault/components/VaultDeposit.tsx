@@ -77,8 +77,7 @@ const VaultDeposit: React.FC<VaultDepositProps> = ({
 		}
 	}, [onApprove, setRequestedApproval])
 
-	const tokenBalance = useTokenBalance(vaultContract.options.address)
-	const vaultBalance = useVaultBalance()
+	const tokenBalance = useTokenBalance(vaultAddress)
 
 	const fullBalance = useMemo(() => {
 		return getFullDisplayBalance(max)
