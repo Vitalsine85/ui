@@ -8,7 +8,7 @@ import useBao from './useBao'
 import useBlock from './useBlock'
 import { ethers } from 'ethers'
 
-const useVaultBalance = (pid: number) => {
+const useVaultBalance = () => {
   const [balance, setBalance] = useState(new BigNumber(0))
   const { account }: { account: string } = useWallet()
   const bao = useBao()
@@ -21,13 +21,13 @@ const useVaultBalance = (pid: number) => {
     const balance = await getVaulted(vaultContract, account)
     userBalance = new BigNumber(balance)
     setBalance(userBalance.decimalPlaces(18))
-  }, [account, pid, bao])
+  }, [account, bao])
 
   useEffect(() => {
     if (account && bao) {
       fetchBalance()
     }
-  }, [account, pid, setBalance, block, bao])
+  }, [account, setBalance, block, bao])
 
   return balance.decimalPlaces(18)
 }

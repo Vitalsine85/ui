@@ -3,7 +3,7 @@ import { Contract } from 'web3-eth-contract'
 export enum PoolType {
   SUSHI = 'sushi',
   UNI = 'uni',
-  ARCHIVED = 'archived'
+  ARCHIVED = 'archived',
 }
 
 export interface Farm {
@@ -13,6 +13,7 @@ export interface Farm {
   lpTokenAddress: string
   lpContract: Contract
   tokenAddress: string
+  tokenDecimals: number
   earnToken: string
   earnTokenAddress: string
   icon: string

@@ -13,8 +13,6 @@ import styled from 'styled-components'
 import Spacer from '../../components/Spacer'
 import VaultWithdraw from './components/VaultWithdraw'
 import VaultDeposit from './components/VaultDeposit'
-import DepositModal from './components/DepositModal'
-import WithdrawModal from './components/WithdrawModal'
 import Card from '../../components/Card'
 import CardContent from '../../components/CardContent'
 import Label from '../../components/Label'
@@ -27,15 +25,41 @@ import { getBalanceNumber } from '../../utils/formatBalance'
 import { getBaoAddress, getBaoContract } from '../../bao/utils'
 import useBao from '../../hooks/useBao'
 import { leftPad } from 'web3-utils'
-
+import roboa from '../../assets/svg/robo-a.svg'
+import { Contract } from 'web3-eth-contract'
+import IconButton from '../../components/IconButton'
+import { AddIcon } from '../../components/icons'
+import useDepositVault from '../../hooks/useDepositVault'
+import useVaultBalance from '../../hooks/useVaultBalance'
+import useWitdrawVault from '../../hooks/useWithdrawVault'
+import TokenInput from '../../components/TokenInput'
+import { getVaultContract, getVaultPoolContract } from '../../bao/utils'
+import { getFullDisplayBalance } from '../../utils/formatBalance'
+import baoIcon from '../../assets/img/bao.png'
 
 const RoboVault: React.FC = () => {
 	const { path } = useRouteMatch()
 	const { account } = useWallet()
 	const [onPresentWalletProviderModal] = useModal(<WalletProviderModal />)
 	const bao = useBao()
+	const tokenAName = 'USDC'
+	const tokenBName = 'WETH'
 
+	const vaultAddress = useMemo(() => getVaultContract(bao)?.options.address, [
+		bao,
+	])
+	const poolAddress = useMemo(() => getVaultPoolContract(bao)?.options.address, [
+		bao,
+	])
 
+	const vaultContract = useMemo(() => getVaultContract(bao), [bao])
+	const poolContract = useMemo(() => getVaultPoolContract(bao), [bao])
+
+	const vaultSharesName = 'Vault Shares'
+	const vaultShares = useTokenBalance(vaultAddress)
+
+	const tokenBalance = useTokenBalance(vaultContract.options.address)
+	const vaultBalance = useVaultBalance()
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
@@ -70,10 +94,10 @@ const RoboVault: React.FC = () => {
 													<VaultStats>
 														<h4>Vault Holdings</h4>
 														<StyledValue> {'totalTokenABalance'} </StyledValue>
-														<Label text={`Total {tokena} in Vault`} />
+														<Label text={`Total ${tokenAName} in Vault`} />
 
 														<StyledValue> {'totalTokenBBalance'} </StyledValue>
-														<Label text={`Total {tokenb} in Vault`} />
+														<Label text={`Total ${tokenBName} in Vault`} />
 													</VaultStats>
 													<VaultStats>
 														<h4>Deposit cap</h4>
@@ -81,15 +105,15 @@ const RoboVault: React.FC = () => {
 														<Label text={`% of Cap Used`} />
 
 														<StyledValue> {'maxTokenA'} </StyledValue>
-														<Label text={`Max {tokena} in Vault`} />
+														<Label text={`Max ${tokenAName} in Vault`} />
 
 														<StyledValue> {'maxTokenB'} </StyledValue>
-														<Label text={`Max {tokenb} in Vault`} />
+														<Label text={`Max ${tokenBName} in Vault`} />
 													</VaultStats>
 													<VaultStats>
 														<h4>Vault positions</h4>
 														<StyledValue> {'tokenPairPrice'} </StyledValue>
-														<Label text={`{tokena}/{tokenb} Price`} />
+														<Label text={`${tokenAName}/${tokenBName} Price`} />
 
 														<StyledValue> {'baseOrderRange'} </StyledValue>
 														<Label text={`Base Order`} />
@@ -109,13 +133,21 @@ const RoboVault: React.FC = () => {
 							<StyledCardsWrapper>
 								<StyledCardWrapper>
 									<VaultModal>
-										<VaultWithdraw />
+										<VaultWithdraw
+											max={vaultBalance}
+											vaultContract={vaultContract}
+											poolContract={poolContract}
+											 />
 									</VaultModal>
 								</StyledCardWrapper>
 								<Spacer />
 								<StyledCardWrapper>
 									<VaultModal>
-										<VaultDeposit />
+										<VaultDeposit
+											max={tokenBalance}
+											vaultContract={vaultContract}
+											poolContract={poolContract}
+										/>
 									</VaultModal>
 								</StyledCardWrapper>
 							</StyledCardsWrapper>
@@ -243,6 +275,19 @@ const StyledValue = styled.div`
 	color: ${(props) => props.theme.color.grey[600]};
 	font-size: 16px;
 	font-weight: 700;
+`
+
+const StyledCardHeader = styled.div`
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+`
+
+const StyledCardActions = styled.div`
+	display: flex;
+	justify-content: center;
+	margin-top: ${(props) => props.theme.spacing[5]}px;
+	width: 100%;
 `
 
 export default RoboVault

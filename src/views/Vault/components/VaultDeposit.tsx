@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useMemo } from 'react'
 import styled from 'styled-components'
 import { Contract } from 'web3-eth-contract'
 import Button from '../../../components/Button'
@@ -19,31 +19,50 @@ import useTokenBalance from '../../../hooks/useTokenBalance'
 import useWitdrawVault from '../../../hooks/useWithdrawVault'
 import { getBalanceNumber } from '../../../utils/formatBalance'
 import TokenInput from '../../../components/TokenInput'
+import { getVaultContract, getVaultPoolContract } from '../../../bao/utils'
+import { getFullDisplayBalance } from '../../../utils/formatBalance'
+import useBao from '../../../hooks/useBao'
+import Spacer from '../../../components/Spacer'
+import DepositModal from './DepositModal'
 
 interface VaultDepositProps {
 	vaultContract: Contract
+	poolContract: Contract
 	max: BigNumber
-	onConfirm: (amount: string) => void
-	tokenAName: string
-	tokenBName: string
 }
 
-
-const VaultDeposit: React.FC<VaultDepositProps> = ({ vaultContract }) => {
-	const tokenAName = 'TKNA'
-	const tokenADecimals = 18
-	const tokenBName = 'TKNB'
+const VaultDeposit: React.FC<VaultDepositProps> = ({
+	max
+}) => {
+	const bao = useBao()
+	const tokenAName = 'USDC'
+	const tokenBName = 'WETH'
+	const tokenAAddress = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+	const tokenBAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+	const tokenADecimals = 6
 	const tokenBDecimals = 18
-	const walletBalance = useTokenBalance(address)
+	const tokenABalance = useTokenBalance(tokenAAddress)
+	const tokenBBalance = useTokenBalance(tokenBAddress)
 	const [val, setVal] = useState('')
 	const [pendingTx, setPendingTx] = useState(false)
+
+	const vaultAddress = useMemo(() => getVaultContract(bao)?.options.address, [
+		bao,
+	])
+	const poolAddress = useMemo(() => getVaultPoolContract(bao)?.options.address, [
+		bao,
+	])
+
+	const vaultContract = useMemo(() => getVaultContract(bao), [bao])
+	const poolContract = useMemo(() => getVaultPoolContract(bao), [bao])
 
 	const [requestedApproval, setRequestedApproval] = useState(false)
 
 	const allowance = useAllowance(vaultContract)
 	const { onApprove } = useApprove(vaultContract)
 
-	const { onDeposit } = useDepositVault()
+	const { onDeposit } = useDepositVault(vaultAddress)
+	const { onWithdraw } = useWitdrawVault(vaultAddress)
 
 	const handleApprove = useCallback(async () => {
 		try {
@@ -82,53 +101,13 @@ const VaultDeposit: React.FC<VaultDepositProps> = ({ vaultContract }) => {
 				<StyledCardContentInner>
 					<StyledCardHeader>
 						<CardIcon>👨🏻‍🍳</CardIcon>
-						<Label text={`Deposit TokenA/TokenB`} />
+						<Label text={`Deposit ${tokenAName}/${tokenBName}`} />
 					</StyledCardHeader>
-					<TokenInput
-						value={val}
-						onSelectMax={handleSelectMax}
-						onChange={handleChange}
-						max={fullBalance}
-						symbol={tokenAName}
-					/>
-					<TokenInput
-						value={val}
-						onSelectMax={handleSelectMax}
-						onChange={handleChange}
-						max={fullBalance}
-						symbol={tokenBName}
-					/>
-					<StyledCardActions>
-						{!allowance.toNumber() ? (
-							<>
-								<Button
-									disabled={requestedApproval}
-									onClick={handleApprove}
-									text={`Approve ${tokenAName}`}
-								/>
-								<Button
-									disabled={requestedApproval}
-									onClick={handleApprove}
-									text={`Approve ${tokenBName}`}
-								/>
-							</>
-						) : (
-							<>
-				<Button text="Cancel" variant="secondary" onClick={onDismiss} />
-				<Button
-					disabled={pendingTx}
-					text={pendingTx ? 'Pending Confirmation' : 'Deposit'}
-					onClick={async () => {
-						setPendingTx(true)
-						await onConfirm(val)
-						setPendingTx(false)
-						onDismiss()
-					}}
-				/>
-
-							</>
-						)}
-					</StyledCardActions>
+					<Spacer />
+						<DepositModal 
+							max={tokenBalance}
+							onConfirm={onDeposit}
+						/>
 				</StyledCardContentInner>
 			</CardContent>
 		</Card>

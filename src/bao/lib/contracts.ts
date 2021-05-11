@@ -41,6 +41,7 @@ export interface FarmableSupportedPool extends SupportedPool {
 	defaultGasPrice: string
 	masterChef: Contract
 	roboVault: Contract
+	roboVaultPool: Contract
 	weth: Contract
 	wethPrice: Contract
 	baoPrice: Contract
@@ -69,18 +70,21 @@ export interface FarmableSupportedPool extends SupportedPool {
 	  this.wethPrice = new this.web3.eth.Contract(ChainOracle as AbiItem[])
 	  this.baoPrice = new this.web3.eth.Contract(UniOracleABI as AbiItem[])
   
-	  this.pools = supportedPools.map((pool) =>
-			  Object.assign(pool, {
-				lpAddress: pool.lpAddresses[networkId],
-				tokenAddress: pool.tokenAddresses[networkId],
-				lpContract: new this.web3.eth.Contract(UNIV2PairAbi as AbiItem[]),
-				tokenContract: new this.web3.eth.Contract(ERC20Abi as AbiItem[]),
-			  }),
-	  )
-  
-	  this.setProvider(provider, networkId)
-	  this.setDefaultAccount(this.web3.eth.defaultAccount)
-	}
+	  this.pools =
+      networkId == 1
+        ? supportedPools.map((pool) =>
+            Object.assign(pool, {
+              lpAddress: pool.lpAddresses[networkId],
+              tokenAddress: pool.tokenAddresses[networkId],
+              lpContract: new this.web3.eth.Contract(UNIV2PairAbi as AbiItem[]),
+              tokenContract: new this.web3.eth.Contract(ERC20Abi as AbiItem[]),
+            }),
+          )
+        : undefined
+
+    this.setProvider(provider, networkId)
+    this.setDefaultAccount(this.web3.eth.defaultAccount)
+  }
   
 	setProvider(provider: provider, networkId: number): void {
 	  const setProvider = (contract: Contract, address: string) => {

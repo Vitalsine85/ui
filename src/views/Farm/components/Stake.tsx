@@ -25,7 +25,7 @@ import WithdrawModal from './WithdrawModal'
 interface StakeProps {
 	lpContract: Contract
 	pid: number
-	tokenName: string,
+	tokenName: string
 	poolType: PoolType
 }
 

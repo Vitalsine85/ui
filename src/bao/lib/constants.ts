@@ -274,6 +274,10 @@ export const contractAddresses = {
 		1: '0xb52f322f7534d60807700bd8414d3c498d4cef52',
 		4: '',
 	},
+	roboVaultPool: {
+		1: '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8',
+		4: '',
+	}
 }
 //
 /*
@@ -311,7 +315,7 @@ export interface SupportedPool {
 	poolType?: PoolType
   }
 
-export const supportedPools = [
+  export const supportedPools: SupportedPool[] = [
 	{
 		pid: 0,
 		lpAddresses: {
@@ -340,7 +344,7 @@ export const supportedPools = [
 		name: 'BAO PARTYv2',
 		symbol: 'BAO-ETH SLP',
 		tokenSymbol: 'BAO',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/bao.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/BAO',
@@ -357,7 +361,7 @@ export const supportedPools = [
 		name: 'Bao/USDC',
 		symbol: 'BAO-USDC SLP',
 		tokenSymbol: 'BAO',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/bao.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/BAO',
@@ -374,7 +378,7 @@ export const supportedPools = [
 		name: 'Bao/YFI',
 		symbol: 'BAO-YFI SLP',
 		tokenSymbol: 'BAO',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/bao.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/BAO',
@@ -391,7 +395,7 @@ export const supportedPools = [
 		name: 'Bao/Sushi',
 		symbol: 'BAO-SUSHI SLP',
 		tokenSymbol: 'BAO',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/bao.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/BAO',
@@ -408,7 +412,7 @@ export const supportedPools = [
 		name: 'Bao/Dai',
 		symbol: 'BAO-DAI SLP',
 		tokenSymbol: 'BAO',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/bao.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/BAO',
@@ -425,7 +429,7 @@ export const supportedPools = [
 		name: "xSushi·A'la·mode",
 		symbol: 'xSushi',
 		tokenSymbol: 'xSushi',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/simplysushi.png',
 		refUrl:
 			'https://sushiswap.fi/token/0x8798249c2e607446efb7ad49ec89dd1865ff4272',
@@ -442,7 +446,7 @@ export const supportedPools = [
 		name: 'Sushi Boat',
 		symbol: 'Sushi-xSushi SLP',
 		tokenSymbol: 'SUSHI',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/simplysushi.png',
 		refUrl:
 			'https://sushiswap.fi/token/0x8798249c2e607446efb7ad49ec89dd1865ff4272',
@@ -459,7 +463,7 @@ export const supportedPools = [
 		name: 'xSushi Maki',
 		symbol: 'xSushi-ETH SLP',
 		tokenSymbol: 'xSUSHI',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/simplysushi.png',
 		refUrl:
 			'https://sushiswap.fi/token/0x8798249c2e607446efb7ad49ec89dd1865ff4272',
@@ -476,7 +480,7 @@ export const supportedPools = [
 		name: 'GRT Gummies',
 		symbol: 'GRT-ETH UNIV2',
 		tokenSymbol: 'GRT',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/gummy-bear.png',
 		refUrl: 'https://ftx.com/trade/GRT/USD#a=getbao',
 	},
@@ -492,7 +496,7 @@ export const supportedPools = [
 		name: 'Rune Ramen',
 		symbol: 'RUNE-ETH SLP',
 		tokenSymbol: 'RUNE',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/ramennoodle.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/RUNE',
@@ -509,7 +513,7 @@ export const supportedPools = [
 		name: '1Inch Nibbles',
 		symbol: '1INCH-ETH UNIV2',
 		tokenSymbol: '1INCH',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/moon-cakers.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/1INCH',
@@ -526,7 +530,7 @@ export const supportedPools = [
 		name: 'FIDA Fondant',
 		symbol: 'FIDA-ETH UNIV2',
 		tokenSymbol: 'FIDA',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/unicorncake.png',
 		refUrl: 'https://ftx.com/trade/FIDA/USD#a=getbao',
 	},
@@ -542,7 +546,7 @@ export const supportedPools = [
 		name: 'NFTX Nuggets',
 		symbol: 'NFTX-ETH SLP',
 		tokenSymbol: 'NFTX',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/nuggets.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/NFTX',
@@ -892,7 +896,7 @@ export const supportedPools = [
 		symbol: 'HUSD-ETH UNIV2',
 		tokenSymbol: 'HUSD',
 		icon: '/chinese-food.png',
-		urlRef: 'https://www.huobi.com/en-us/topic/invited/?invite_code=pfr33',
+		refUrl: 'https://www.huobi.com/en-us/topic/invited/?invite_code=pfr33',
 	},
 	{
 		pid: 24,
@@ -907,7 +911,7 @@ export const supportedPools = [
 		symbol: 'ZRX-ETH UNIV2',
 		tokenSymbol: 'ZRX',
 		icon: '/meat.png',
-		urlRef: 'https://nominex.io/?r=33642',
+		refUrl: 'https://nominex.io/?r=33642',
 	},
 	{
 		pid: 25,
@@ -922,7 +926,7 @@ export const supportedPools = [
 		symbol: 'aETH-ETH UNIV2',
 		tokenSymbol: 'aETH',
 		icon: '/cocktail.png',
-		urlRef: 'https://app.aave.com/?referral=108',
+		refUrl: 'https://app.aave.com/?referral=108',
 	},
 	{
 		pid: 26,
@@ -937,7 +941,7 @@ export const supportedPools = [
 		symbol: 'OCEAN-ETH UNIV2',
 		tokenSymbol: 'OCEAN',
 		icon: '/orange-chicken.png',
-		urlRef: 'https://www.kucoin.com/ucenter/signup?rcode=Ptuf31',
+		refUrl: 'https://www.kucoin.com/ucenter/signup?rcode=Ptuf31',
 	},
 	{
 		pid: 27,
@@ -1086,7 +1090,7 @@ export const supportedPools = [
 		name: 'Aragon Apple KitKats',
 		symbol: 'ANT-ETH UNIV2',
 		tokenSymbol: 'ANT',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/apple-chocolate.png',
 		refUrl:
 			'https://www.aex.plus/page/m_regist.html#/?invite_code=765759&invite_type=10',
@@ -1103,7 +1107,7 @@ export const supportedPools = [
 		name: 'Mana Miantiao',
 		symbol: 'MANA-ETH UNIV2',
 		tokenSymbol: 'MANA',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/Miantiao.png',
 		refUrl: 'https://virgox.com/login/register?code=gxkb7dva',
 	},
@@ -1240,7 +1244,7 @@ export const supportedPools = [
 		name: 'Civic Chaofan',
 		symbol: 'CVC-ETH UNIV2',
 		tokenSymbol: 'CVC',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/fried-rice.png',
 		refUrl: 'https://www.mxc.ai/auth/signup?inviteCode=13z4G',
 	},
@@ -1271,7 +1275,7 @@ export const supportedPools = [
 		name: 'wFIL/USDC Flaming Crab',
 		symbol: 'wFIL-USDC BAO',
 		tokenSymbol: 'wFIL',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/crab.png',
 		refUrl:
 			'https://app.uniswap.org/#/swap?inputCurrency=0x6e1a19f235be7ed8e3369ef73b196c07257494de&outputCurrency=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
@@ -1363,7 +1367,7 @@ export const supportedPools = [
 		name: 'Titan Tea',
 		symbol: 'TITAN-ETH UNIV2',
 		tokenSymbol: 'TITAN',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/hot-green-tea.png',
 		refUrl: 'https://www.huobi.com/en-us/topic/invited/?invite_code=pfr33',
 	},
@@ -1471,7 +1475,7 @@ export const supportedPools = [
 		name: 'Storj Siu Luhng Bao',
 		symbol: 'STORJ-ETH UNIV2',
 		tokenSymbol: 'STORJ',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/xiao-long-bao.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/STORJ',
@@ -1579,7 +1583,7 @@ export const supportedPools = [
 		name: 'Elf Eggplant (Stuffed)',
 		symbol: 'ELF-ETH UNIV2',
 		tokenSymbol: 'ELF',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/eggplant.png',
 		refUrl: 'https://www.digifinex.com/en-ww/from/?channelCode=ljaUPp',
 	},
@@ -1671,7 +1675,7 @@ export const supportedPools = [
 		name: '(w)ZEC Zhaziji',
 		symbol: 'wZEC-USDC BAO',
 		tokenSymbol: 'ZB',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/zhaziji.png',
 		refUrl:
 			'https://app.uniswap.org/#/swap?inputCurrency=0x4a64515e5e1d1073e83f30cb97bed20400b66e10',
@@ -1750,7 +1754,7 @@ export const supportedPools = [
 		symbol: 'BTMX-ETH UNIV2',
 		tokenSymbol: 'BTMX',
 		icon: '/boloubao.png',
-		urlRef: 'https://ftx.com/trade/BTMX-PERP#a=createtrade',
+		refUrl: 'https://ftx.com/trade/BTMX-PERP#a=createtrade',
 	},
 	{
 		pid: 80,
@@ -1765,7 +1769,7 @@ export const supportedPools = [
 		symbol: 'LPT-ETH UNIV2',
 		tokenSymbol: 'LPT',
 		icon: '/jerk-chicken.png',
-		urlRef:
+		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/LPT',
 	},
 	{
@@ -1781,7 +1785,7 @@ export const supportedPools = [
 		symbol: 'DGTX-ETH UNIV2',
 		tokenSymbol: 'DGTX',
 		icon: '/hot-soup.png',
-		urlRef: 'https://www.kucoin.com/ucenter/signup?rcode=Ptuf31',
+		refUrl: 'https://www.kucoin.com/ucenter/signup?rcode=Ptuf31',
 	},
 	{
 		pid: 82,
@@ -1795,9 +1799,9 @@ export const supportedPools = [
 		name: 'Engima Mystery Stew',
 		symbol: 'ENG-ETH UNIV2',
 		tokenSymbol: 'ENG',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/mysterystew.png',
-		urlRef:
+		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ENG/ETH',
 	},
 	{
@@ -2053,7 +2057,7 @@ export const supportedPools = [
 		name: 'REQ Ramune',
 		symbol: 'REQ-ETH UNIV2',
 		tokenSymbol: 'REQ',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/ramune.png',
 		refUrl: 'https://www.bitfinex.com/?refcode=2f96mAtkD',
 	},
@@ -2161,7 +2165,7 @@ export const supportedPools = [
 		name: 'DMG Fake Crab',
 		symbol: 'DMG-ETH UNIV2',
 		tokenSymbol: 'DMG',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/sushi.png',
 		refUrl: 'https://ftx.com/trade/DMG-PERP#a=createtrade',
 	},
@@ -2177,7 +2181,7 @@ export const supportedPools = [
 		name: 'Karma Friendship Roll',
 		symbol: 'KARMA-ETH UNIV2',
 		tokenSymbol: 'KARMA',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/maki.png',
 		refUrl: 'https://www.hotbit.io/register?ref=669143',
 	},
@@ -2283,7 +2287,7 @@ export const supportedPools = [
 		name: 'FOAM Fondue',
 		symbol: 'FOAM-ETH UNIV2',
 		tokenSymbol: 'FOAM',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/fondue.png',
 		refUrl: 'https://bilaxy.com/user/register?intro=1428882',
 	},
@@ -2314,9 +2318,9 @@ export const supportedPools = [
 		name: 'PRE Potstickers',
 		symbol: 'PRE-ETH UNIV2',
 		tokenSymbol: 'PRE',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/potstickers.png',
-		urlRef: 'https://www.kucoin.com/ucenter/signup?rcode=Ptuf31',
+		refUrl: 'https://www.kucoin.com/ucenter/signup?rcode=Ptuf31',
 	},
 	{
 		pid: 117,
@@ -2345,7 +2349,7 @@ export const supportedPools = [
 		name: 'JRT Jiaohua Ji',
 		symbol: 'JRT-ETH UNIV2',
 		tokenSymbol: 'JRT',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/chicken-dish.png',
 		refUrl: 'https://bitmax.io/register?inviteCode=MCTXZDRU',
 	},
@@ -2468,7 +2472,7 @@ export const supportedPools = [
 		name: 'BFT Bamboo Roll',
 		symbol: 'BFT-ETH UNIV2',
 		tokenSymbol: 'BFT',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/salad-rolls.png',
 		refUrl: 'https://www.huobi.com/en-us/topic/invited/?invite_code=pfr33',
 	},
@@ -2499,7 +2503,7 @@ export const supportedPools = [
 		name: 'YAMv2 Refried Yam',
 		symbol: 'YAMV2-ETH UNIV2',
 		tokenSymbol: 'YAMV2',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/yam.png',
 		refUrl: 'https://www.mxc.ai/auth/signup?inviteCode=13z4G',
 	},
@@ -2563,7 +2567,7 @@ export const supportedPools = [
 		name: 'HYDRO Herbal Tea',
 		symbol: 'HYDRO-ETH UNIV2',
 		tokenSymbol: 'HYDRO',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/herbal-tea.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/HYDRO/ETH',
@@ -2612,7 +2616,7 @@ export const supportedPools = [
 		name: 'HOT Hasma',
 		symbol: 'HOT-ETH UNIV2',
 		tokenSymbol: 'HOT',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/snow-fungus-soup.png',
 		refUrl: 'https://www.mxc.ai/auth/signup?inviteCode=13z4G',
 	},
@@ -2708,7 +2712,7 @@ export const supportedPools = [
 		name: 'Tap Tangyuan',
 		symbol: 'TTT-ETH UNIV2',
 		tokenSymbol: 'TTT',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/tangyuan.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/TTT/ETH',
@@ -2801,7 +2805,7 @@ export const supportedPools = [
 		name: 'Value Meal Deal',
 		symbol: 'VALUE-ETH UNIV2',
 		tokenSymbol: 'VALUE',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/takeaway.png',
 		refUrl: 'https://www.mxc.ai/auth/signup?inviteCode=13z4G',
 	},
@@ -2848,7 +2852,7 @@ export const supportedPools = [
 		name: 'SEED (Seasame)',
 		symbol: 'SEED-ETH UNIV2',
 		tokenSymbol: 'SEED',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/sesame.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/SEED/ETH',
@@ -2912,7 +2916,7 @@ export const supportedPools = [
 		name: 'BitBao Express',
 		symbol: 'BEST-ETH UNIV2',
 		tokenSymbol: 'BEST',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/bao.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/BEST/ETH',
@@ -2929,7 +2933,7 @@ export const supportedPools = [
 		name: 'TOMOe Teriyaki',
 		symbol: 'TOMOe-ETH UNIV2',
 		tokenSymbol: 'TOMOe',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/hainanese-chicken.png',
 		refUrl: 'https://ftx.com/trade/TOMO-PERP#a=createtrade',
 	},
@@ -2961,7 +2965,7 @@ export const supportedPools = [
 		name: 'Pickle(d) Pork (Spicy!!)',
 		symbol: 'PICKLE-ETH UNIV2',
 		tokenSymbol: 'PICKLE',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/beef-chow-fun.png',
 		refUrl: 'https://www.mxc.ai/auth/signup?inviteCode=13z4G',
 	},
@@ -2977,7 +2981,7 @@ export const supportedPools = [
 		name: 'ENCORE Egg Tart',
 		symbol: 'ENCORE-ETH UNIV2',
 		tokenSymbol: 'ENCORE',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/egg-tart.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ENCORE/ETH',
@@ -2994,7 +2998,7 @@ export const supportedPools = [
 		name: 'YFIM Cloned Meat',
 		symbol: 'YFIM-ETH UNIV2',
 		tokenSymbol: 'YFIM',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/sheep.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/YFIM/ETH',
@@ -3011,7 +3015,7 @@ export const supportedPools = [
 		name: 'Oro Orzo',
 		symbol: 'ORO-ETH UNIV2',
 		tokenSymbol: 'ORO',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/rice.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ORO/ETH',
@@ -3074,7 +3078,7 @@ export const supportedPools = [
 		name: 'CVP Char Siu',
 		symbol: 'CVP-ETH UNIV2',
 		tokenSymbol: 'CVP',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/char-siu.png',
 		refUrl: 'https://www.mxc.ai/auth/signup?inviteCode=13z4G',
 	},
@@ -3090,7 +3094,7 @@ export const supportedPools = [
 		name: 'JUL Jian Dui',
 		symbol: 'JUL-ETH UNIV2',
 		tokenSymbol: 'JUL',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/sesame-ball.png',
 		refUrl: 'https://www.hotbit.io/register?ref=669143',
 	},
@@ -3121,7 +3125,7 @@ export const supportedPools = [
 		name: 'RMPL Raisin Cake',
 		symbol: 'RMPL-ETH UNIV2',
 		tokenSymbol: 'KEEP',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/brownie.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/RMPL/ETH',
@@ -3138,7 +3142,7 @@ export const supportedPools = [
 		name: 'OWL Oysters',
 		symbol: 'OWL-ETH UNIV2',
 		tokenSymbol: 'OWL',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/oyster.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/OWL_1/ETH',
@@ -3480,7 +3484,7 @@ export const supportedPools = [
 		name: 'Cover Cake',
 		symbol: 'COVER-ETH UNIV2',
 		tokenSymbol: 'COVER',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/cakey.png',
 		refUrl: 'https://www.mxc.ai/auth/signup?inviteCode=13z4G',
 	},
@@ -3527,7 +3531,7 @@ export const supportedPools = [
 		name: 'Dodo Deviled Eggs',
 		symbol: 'DODO-ETH UNIV2',
 		tokenSymbol: 'DODO',
-		poolType: 'archived',
+		poolType: PoolType.ARCHIVED,
 		icon: '/soy-eggs.png',
 		refUrl: 'https://www.mxc.ai/auth/signup?inviteCode=13z4G',
 	},
@@ -3634,7 +3638,7 @@ export const supportedPools = [
 		name: 'sETH/ETH',
 		symbol: 'sETH-ETH UNIV2',
 		tokenSymbol: 'sETH',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/eth.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/sETH',
@@ -3651,7 +3655,7 @@ export const supportedPools = [
 		name: 'ankrETH/ETH',
 		symbol: 'ankrETH-ETH UNIV2',
 		tokenSymbol: 'ankrETH',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/eth.png',
 		refUrl:
 			'https://app.uniswap.org/#/swap?outputCurrency=0xe95a203b1a91a908f9b9ce46459d101078c2c3cb',
@@ -3668,7 +3672,7 @@ export const supportedPools = [
 		name: 'stETH/ETH (Lido)',
 		symbol: 'stETH-ETH UNIV2',
 		tokenSymbol: 'stETH',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/eth.png',
 		refUrl:
 			'https://app.uniswap.org/#/swap?outputCurrency=0xe95a203b1a91a908f9b9ce46459d101078c2c3cb',
@@ -3685,7 +3689,7 @@ export const supportedPools = [
 		name: 'Injective Inectible Food',
 		symbol: 'INJ-ETH UNIV2',
 		tokenSymbol: 'INJ',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/injection.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/INJ',
@@ -3702,7 +3706,7 @@ export const supportedPools = [
 		name: 'GRO Lab Grown Meat',
 		symbol: 'GRO-ETH UNIV2',
 		tokenSymbol: 'GRO',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/lab-meat.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/GRO',
@@ -3719,7 +3723,7 @@ export const supportedPools = [
 		name: 'TVK Shared Meal',
 		symbol: 'TVK-ETH UNIV2',
 		tokenSymbol: 'TVK',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/picnic.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/TVK',
@@ -3736,7 +3740,7 @@ export const supportedPools = [
 		name: 'FRAX/USDC Fries',
 		symbol: 'FRAX-USDC UNIV2',
 		tokenSymbol: 'FRAX',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/fried-potatoes.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/FRAX',
@@ -3753,7 +3757,7 @@ export const supportedPools = [
 		name: 'DAI/USDC Dip',
 		symbol: 'DAI-USDC UNIV2',
 		tokenSymbol: 'DAI',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/gravy.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/DAI',
@@ -3770,7 +3774,7 @@ export const supportedPools = [
 		name: 'Lido with Limes',
 		symbol: 'LDO-ETH UNIV2',
 		tokenSymbol: 'LDO',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/lime.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/LDO',
@@ -3787,7 +3791,7 @@ export const supportedPools = [
 		name: 'Badger (...Edible?)',
 		symbol: 'BADGER-ETH UNIV2',
 		tokenSymbol: 'BADGER',
-		poolType: 'uni',
+		poolType: PoolType.UNI,
 		icon: '/badger.png',
 		refUrl:
 			'https://1inch.exchange/#/r/0x3bC3c8aF8CFe3dFC9bA1A57c7C3b653e3f6d6951/ETH/BADGER',
@@ -3804,7 +3808,7 @@ export const supportedPools = [
 		name: 'Bor(ring) meal',
 		symbol: 'BOR-ETH SLP',
 		tokenSymbol: 'BOR',
-		poolType: 'sushi',
+		poolType: PoolType.SUSHI,
 		icon: '/steak.png',
 		refUrl:
 			'https://sushiswap.fi/token/0x3c9d6c1c73b31c837832c72e04d3152f051fc1a9',

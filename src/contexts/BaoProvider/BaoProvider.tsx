@@ -5,7 +5,7 @@ import { useWallet } from 'use-wallet'
 import { Bao } from '../../bao'
 
 export interface BaoContext {
-	bao?: typeof Bao
+	bao?: Bao
 }
 
 export const Context = createContext<BaoContext>({
@@ -15,7 +15,7 @@ export const Context = createContext<BaoContext>({
 declare global {
 	interface Window {
 		baosauce: any
-		bao: any
+		bao: Bao
 	}
 }
 
@@ -45,7 +45,8 @@ const BaoProvider: React.FC = ({ children }) => {
 		}
 	}, [ethereum])
 
-	return <Context.Provider value={{ bao }}>{children}</Context.Provider>
+	const baoContext: { bao: Bao } = { bao }
+	return <Context.Provider value={baoContext}>{children}</Context.Provider>
 }
 
 export default BaoProvider

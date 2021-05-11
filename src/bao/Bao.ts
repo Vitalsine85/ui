@@ -34,6 +34,7 @@ export interface BaoOptions {
 	public readonly wethPriceAddress: string
 	public readonly baoPriceAddress: string
 	public readonly roboVaultAddress: string
+	public readonly roboVaultPoolAddress: string
 	operation: SetsNetworkId
   
 	constructor(
@@ -77,6 +78,7 @@ export interface BaoOptions {
 		this.wethAddress = contractAddresses.weth[networkId]
 		this.masterChefAddress = contractAddresses.masterChef[networkId]
 		this.roboVaultAddress = contractAddresses.roboVault[networkId]
+		this.roboVaultPoolAddress= contractAddresses.roboVaultPool[networkId]
 		this.wethPriceAddress = contractAddresses.wethPrice[networkId]
 		this.baoPriceAddress = contractAddresses.baoPrice[networkId]	  }
 

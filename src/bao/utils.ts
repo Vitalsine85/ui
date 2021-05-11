@@ -37,6 +37,10 @@ export const getVaultAddress = (bao: Bao): string => {
 	return bao && bao.roboVaultAddress
 }
 
+export const getVaultPoolAddress = (bao: Bao): string => {
+	return bao && bao.roboVaultPoolAddress
+}
+
 export const getWethContract = (bao: Bao): Contract => {
 	return bao && bao.contracts && bao.contracts.weth
 }
@@ -57,6 +61,9 @@ export const getBaoContract = (bao: Bao): Contract => {
 }
 export const getVaultContract = (bao: Bao): Contract => {
 	return bao && bao.contracts && bao.contracts.roboVault
+}
+export const getVaultPoolContract = (bao: Bao): Contract => {
+	return bao && bao.contracts && bao.contracts.roboVaultPool
 }
 
 export const getFarms = (bao: Bao): Farm[] => {

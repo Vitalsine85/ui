@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useWallet } from 'use-wallet'
 
 import {
-  getVaultContract,
   getWithdrawableBalance,
   getVaultContract,
   getBaoAddress,
@@ -13,7 +12,7 @@ import BigNumber from 'bignumber.js'
 import useBlock from './useBlock'
 import { Bao } from '../bao'
 
-export const useVaultSwapWithdrawableBalance = (bao: Bao): BigNumber => {
+export const useVaultWithdrawableBalance = (bao: Bao): BigNumber => {
   const { account } = useWallet()
   const [withdrawableBalance, setWithdrawableBalance] = useState(
     new BigNumber(0),

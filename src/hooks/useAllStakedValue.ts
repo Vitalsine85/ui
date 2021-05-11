@@ -13,6 +13,7 @@ import {
 } from '../bao/utils'
 import useBao from './useBao'
 import useBlock from './useBlock'
+import { getContract } from '../utils/erc20'
 
 export interface StakedValue {
   tokenAmount: BigNumber
@@ -22,9 +23,9 @@ export interface StakedValue {
   poolWeight: BigNumber
 }
 
-const useAllStakedValue = () => {
+const useAllStakedValue = (): StakedValue[] => {
   const [balances, setBalance] = useState([] as Array<StakedValue>)
-  const { account }: { account: string; ethereum: provider } = useWallet()
+  const { account, ethereum } = useWallet<provider>()
   const bao = useBao()
   const farms = getFarms(bao)
   const masterChefContract = getMasterChefContract(bao)
@@ -33,26 +34,15 @@ const useAllStakedValue = () => {
 
   const fetchAllStakedValue = useCallback(async () => {
     const balances: Array<StakedValue> = await Promise.all(
-      farms.map(
-        ({
-          pid,
+      farms.map(({ pid, lpContract, tokenAddress, tokenDecimals }) =>
+        getTotalLPWethValue(
+          masterChefContract,
+          wethContract,
           lpContract,
-          tokenContract,
+          getContract(ethereum, tokenAddress),
           tokenDecimals,
-        }: {
-          pid: number
-          lpContract: Contract
-          tokenContract: Contract
-          tokenDecimals: number
-        }) =>
-          getTotalLPWethValue(
-            masterChefContract,
-            wethContract,
-            lpContract,
-            tokenContract,
-            tokenDecimals,
-            pid,
-          ),
+          pid,
+        ),
       ),
     )
 

@@ -1,61 +1,73 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import BigNumber from 'bignumber.js'
+import React, { useCallback, useState, useMemo } from 'react'
 import styled from 'styled-components'
+import { Contract } from 'web3-eth-contract'
 import Button from '../../../components/Button'
 import Card from '../../../components/Card'
 import CardContent from '../../../components/CardContent'
 import CardIcon from '../../../components/CardIcon'
+import IconButton from '../../../components/IconButton'
+import { AddIcon } from '../../../components/icons'
 import Label from '../../../components/Label'
 import Value from '../../../components/Value'
-import { getBalanceNumber } from '../../../utils/formatBalance'
-import useTokenBalance from '../../../hooks/useTokenBalance'
-import { Contract } from 'web3-eth-contract'
+import useAllowance from '../../../hooks/useAllowance'
+import useApprove from '../../../hooks/useApprove'
+import Modal, { ModalProps } from '../../../components/Modal'
 import useModal from '../../../hooks/useModal'
-import WithdrawModal from './WithdrawModal'
-import BigNumber from 'bignumber.js'
-import { getVaultContract } from '../../../bao/utils'
-import useDeposit from '../../../hooks/useDepositVault'
-import useBao from '../../../hooks/useBao'
-import DepositModal from './DepositModal'
-import useWithdraw from '../../../hooks/useWithdrawVault'
-import useAllowanceVault from '../../../hooks/useAllowanceVault'
-import useApproveVault from '../../../hooks/useApproveVault'
+import useDepositVault from '../../../hooks/useDepositVault'
+import useVaultBalance from '../../../hooks/useVaultBalance'
+import useTokenBalance from '../../../hooks/useTokenBalance'
+import useWitdrawVault from '../../../hooks/useWithdrawVault'
+import { getBalanceNumber } from '../../../utils/formatBalance'
 import TokenInput from '../../../components/TokenInput'
+import { getVaultContract, getVaultPoolContract } from '../../../bao/utils'
+import { getFullDisplayBalance } from '../../../utils/formatBalance'
+import useBao from '../../../hooks/useBao'
+import baoIcon from '../../../assets/img/bao.png'
 import Spacer from '../../../components/Spacer'
-import StyledValue from '../../../components/Value'
+import WithdrawModal from './WithdrawModal'
 
-
-interface VaultWithdraw {
-	withdrawableBalance: BigNumber
+interface VaultWithdrawProps {
+	vaultContract: Contract
+	poolContract: Contract
+	max: BigNumber
 }
 
-const VaultWithdraw: React.FC<VaultWithdraw> = ({ withdrawableBalance }) => {
+const VaultWithdraw: React.FC<VaultWithdrawProps> = ({ 
+	max
+ }) => {
 	const bao = useBao()
+	const tokenAAddress = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+	const tokenBAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+	const tokenAName = 'USDC'
+	const tokenADecimals = 6
+	const tokenBName = 'WETH'
+	const tokenBDecimals = 18
+	const tokenABalance = useVaultBalance()
+	const tokenBBalance = useVaultBalance()
+	const [val, setVal] = useState('')
+	const [pendingTx, setPendingTx] = useState(false)
 
-	const address = useMemo(() => getVaultContract(bao)?.options.address, [
+	const vaultAddress = useMemo(() => getVaultContract(bao)?.options.address, [
 		bao,
 	])
-	const tokenAName = 'TOKENA'
-	const tokenBName = 'TOKENB'
-	const shareName = 'SHARE'
-	const tokenADecimals = 18
-	const tokenBDecimals = 18
+	const poolAddress = useMemo(() => getVaultPoolContract(bao)?.options.address, [
+		bao,
+	])
 
-	const walletBalance = useTokenBalance(address)
+	const vaultContract = useMemo(() => getVaultContract(bao), [bao])
+	const poolContract = useMemo(() => getVaultPoolContract(bao), [bao])
+	
+	const vaultSharesName = 'Vault Shares'
+	const vaultShares = useTokenBalance(vaultAddress)
 
 	const [requestedApproval, setRequestedApproval] = useState(false)
-	const contract = useMemo(() => getVaultContract(bao), [bao])
-	const allowance = useAllowanceVault(contract)
-	const { onApprove } = useApproveVault(contract)
 
-	const { onDeposit } = useDeposit(address, tokenADecimals, tokenBDecimals)
-	const { onWithdraw } = useWithdraw(address)
+	const allowance = useAllowance(vaultContract)
+	const { onApprove } = useApprove(vaultContract)
 
-	const tokenBalance = useTokenBalance(vaultContract.options.address)
-	const vaultBalance = useVaultBalance()
-
-	const fullBalance = useMemo(() => {
-		return getFullDisplayBalance(max)
-	}, [max])
+	const { onDeposit } = useDepositVault(vaultAddress)
+	const { onWithdraw } = useWitdrawVault(vaultAddress)
 
 	const handleApprove = useCallback(async () => {
 		try {
@@ -70,12 +82,19 @@ const VaultWithdraw: React.FC<VaultWithdraw> = ({ withdrawableBalance }) => {
 		}
 	}, [onApprove, setRequestedApproval])
 
+	const tokenBalance = useTokenBalance(vaultContract.options.address)
+	const vaultBalance = useVaultBalance()
+
 	const handleChange = useCallback(
 		(e: React.FormEvent<HTMLInputElement>) => {
 			setVal(e.currentTarget.value)
 		},
 		[setVal],
 	)
+
+	const fullBalance = useMemo(() => {
+		return getFullDisplayBalance(max)
+	}, [max])
 
 	const handleSelectMax = useCallback(() => {
 		setVal(fullBalance)
@@ -88,39 +107,16 @@ const VaultWithdraw: React.FC<VaultWithdraw> = ({ withdrawableBalance }) => {
 					<StyledCardHeader>
 						<CardIcon>
 							<img src={baoIcon} height={50} />
-							<Label text={`Withdraw TokenA/TokenB`} />
 						</CardIcon>
-						<Value value={getVaultShares()} />
-						<Label text="Vault Shares" />
+						<Label text={`Withdraw ${tokenAName}/${tokenBName}`} />
+						<Value value={val} />
+						<Label text={vaultSharesName} />
 					</StyledCardHeader>
 					<Spacer />
-					<TokenInput
-						value={val}
-						onSelectMax={handleSelectMax}
-						onChange={handleChange}
-						max={fullBalance}
-						symbol={'Vault Shares'}
+					<WithdrawModal 
+						max={vaultBalance}
+						onConfirm={onWithdraw}
 					/>
-					<Spacer />
-					<VaultStats>
-						<h4>You will recieve</h4>
-						<StyledValue> {'tokenAVaultBalance'} </StyledValue>
-						<Label text={`TKNA`} />
-
-						<StyledValue> {'tokenBVaultBalance'} </StyledValue>
-						<Label text={`TKNB`} />
-					</VaultStats>
-					<StyledCardActions>
-						<Button
-							disabled={pendingTx}
-							text={pendingTx ? 'Pending Confirmation' : 'Deposit'}
-							onClick={async () => {
-								setPendingTx(true)
-								await onWithdraw()
-								setPendingTx(false)
-							}}
-						/>
-					</StyledCardActions>
 				</StyledCardContentInner>
 			</CardContent>
 		</Card>
@@ -131,13 +127,6 @@ const StyledCardHeader = styled.div`
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-`
-
-const StyledCardActions = styled.div`
-	display: flex;
-	justify-content: center;
-	margin-top: ${(props) => props.theme.spacing[5]}px;
-	width: 100%;
 `
 
 const StyledActionSpacer = styled.div`
@@ -153,14 +142,6 @@ const StyledCardContentInner = styled.div`
 	justify-content: space-between;
 `
 
-const VaultStats = styled.div`
-width: 200px;
-text-align: center;
-@media (max-width: 768px) {
-	width: 100%;
-	flex-flow: column nowrap;
-	align-items: center;
-}
-`
+
 
 export default VaultWithdraw
