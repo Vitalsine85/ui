@@ -68,18 +68,21 @@ onChange={handleChange}
 max={fullBalance}
 symbol={'Vault Shares'}
 />
-<VaultStats>
 <h4>You will recieve</h4>
+<Vault>
+<VaultStats>
 <StyledValue> {'tokenABalance'} </StyledValue>
 <Label text={tokenAName} />
-
+</VaultStats>
+<VaultStats>
 <StyledValue> {'tokenBBalance'} </StyledValue>
 <Label text={tokenBName} />
 </VaultStats>
+</Vault>
 <StyledCardActions>
 <Button
     disabled={pendingTx}
-    text={pendingTx ? 'Pending Confirmation' : 'Deposit'}
+    text={pendingTx ? 'Pending Confirmation' : 'Withdraw'}
     onClick={async () => {
         setPendingTx(true)
         await onWithdraw()
@@ -90,8 +93,14 @@ symbol={'Vault Shares'}
 </>
     )}
 
-    const VaultStats = styled.div`
-width: 200px;
+const Vault = styled.div`
+display: flex;
+justify-content: space-between;
+width: 100%;
+`
+
+const VaultStats = styled.div`
+width: 150px;
 text-align: center;
 @media (max-width: 768px) {
 	width: 100%;

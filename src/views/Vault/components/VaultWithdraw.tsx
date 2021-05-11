@@ -100,7 +100,7 @@ const VaultWithdraw: React.FC<VaultWithdrawProps> = ({
 	}, [fullBalance, setVal])
 
 	return (
-		<Card>
+		<VaultCard>
 			<CardContent>
 				<StyledCardContentInner>
 					<StyledCardHeader>
@@ -109,7 +109,6 @@ const VaultWithdraw: React.FC<VaultWithdrawProps> = ({
 						</CardIcon>
 						<Label text={`Withdraw ${tokenAName}/${tokenBName}`} />
 						<Value value={val} />
-						<Label text={vaultSharesName} />
 					</StyledCardHeader>
 					<Spacer />
 					<WithdrawModal 
@@ -118,9 +117,20 @@ const VaultWithdraw: React.FC<VaultWithdrawProps> = ({
 					/>
 				</StyledCardContentInner>
 			</CardContent>
-		</Card>
+		</VaultCard>
 	)
 }
+
+const VaultCard = styled.div`
+	background: ${(props) => props.theme.color.grey[200]};
+	border: 1px solid ${(props) => props.theme.color.grey[300]}ff;
+	border-radius: 12px;
+	box-shadow: inset 1px 1px 0px ${(props) => props.theme.color.grey[100]};
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	height: 100%;
+`
 
 const StyledCardHeader = styled.div`
 	align-items: center;
@@ -140,7 +150,5 @@ const StyledCardContentInner = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 `
-
-
 
 export default VaultWithdraw

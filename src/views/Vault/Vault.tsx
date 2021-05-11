@@ -38,19 +38,46 @@ import { getFullDisplayBalance } from '../../utils/formatBalance'
 import baoIcon from '../../assets/img/bao.png'
 
 const RoboVault: React.FC = () => {
+	const {
+		address,
+		balance,
+		baseLower,
+		baseUpper,
+		limitLower,
+		limitUpper,
+		maxTotalSupply,
+		poolAddress,
+		price,
+		tokenA,
+		tokenB,
+		totalA,
+		totalB,
+		totalSupply,
+		vaultAddress
+	} = {
+		address: '0xb52f322f7534d60807700bd8414d3c498d4cef52',
+		balance: '',
+		baseLower: '',
+		baseUpper: '',
+		limitLower: '',
+		limitUpper: '',
+		maxTotalSupply: '',
+		poolAddress: '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8',
+		price: '',
+		tokenA: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+		tokenB: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+		totalA: '',
+		totalB: '',
+		totalSupply: '',
+		vaultAddress: '0xb52f322f7534d60807700bd8414d3c498d4cef52'
+	}
+
 	const { path } = useRouteMatch()
 	const { account } = useWallet()
 	const [onPresentWalletProviderModal] = useModal(<WalletProviderModal />)
 	const bao = useBao()
 	const tokenAName = 'USDC'
 	const tokenBName = 'WETH'
-
-	const vaultAddress = useMemo(() => getVaultContract(bao)?.options.address, [
-		bao,
-	])
-	const poolAddress = useMemo(() => getVaultPoolContract(bao)?.options.address, [
-		bao,
-	])
 
 	const vaultContract = useMemo(() => getVaultContract(bao), [bao])
 	const poolContract = useMemo(() => getVaultPoolContract(bao), [bao])
@@ -93,10 +120,10 @@ const RoboVault: React.FC = () => {
 												<Vault>
 													<VaultStats>
 														<h4>Vault Holdings</h4>
-														<StyledValue> {'totalTokenABalance'} </StyledValue>
+														<StyledValue> {'totalA'} </StyledValue>
 														<Label text={`Total ${tokenAName} in Vault`} />
 
-														<StyledValue> {'totalTokenBBalance'} </StyledValue>
+														<StyledValue> {'totalB'} </StyledValue>
 														<Label text={`Total ${tokenBName} in Vault`} />
 													</VaultStats>
 													<VaultStats>
@@ -133,7 +160,7 @@ const RoboVault: React.FC = () => {
 							<StyledCardsWrapper>
 								<StyledCardWrapper>
 									<VaultModal>
-										<VaultWithdraw
+										<VaultDeposit
 											max={vaultBalance}
 											vaultContract={vaultContract}
 											poolContract={poolContract}
@@ -143,7 +170,7 @@ const RoboVault: React.FC = () => {
 								<Spacer />
 								<StyledCardWrapper>
 									<VaultModal>
-										<VaultDeposit
+										<VaultWithdraw
 											max={tokenBalance}
 											vaultContract={vaultContract}
 											poolContract={poolContract}
@@ -187,6 +214,7 @@ const StyledFarm = styled.div`
 	align-items: center;
 	display: flex;
 	flex-direction: column;
+	width: 825px;
 	@media (max-width: 768px) {
 		width: 100%;
 	}
@@ -194,7 +222,6 @@ const StyledFarm = styled.div`
 
 const StyledCardsWrapper = styled.div`
 	display: flex;
-	width: 900px;
 	@media (max-width: 768px) {
 		width: 100%;
 		flex-flow: column nowrap;
@@ -234,7 +261,6 @@ const StyledInfo = styled.h3`
 const Vault = styled.div`
 display: flex;
 justify-content: space-between;
-width: 900px;
 @media (max-width: 768px) {
 	width: 100%;
 	flex-flow: column nowrap;
@@ -253,6 +279,7 @@ text-align: center;
 `
 const VaultModal = styled.div`
 width: 400px;
+height: 500px;
 text-align: center;
 @media (max-width: 768px) {
 	width: 100%;
