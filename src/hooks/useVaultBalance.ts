@@ -14,13 +14,13 @@ const useVaultBalance = () => {
   const bao = useBao()
   const poolContract = getVaultPoolContract(bao)
   const block = useBlock()
-  let userBalance
+  let vaultBalance
 
   const fetchBalance = useCallback(async () => {
     BigNumber.config({ DECIMAL_PLACES: 18 })
-    const balance = await getVaulted(poolContract, account)
-    userBalance = new BigNumber(balance)
-    setBalance(userBalance.decimalPlaces(18))
+    const balance = await getVaulted(poolContract)
+    vaultBalance = new BigNumber(balance)
+    setBalance(vaultBalance.decimalPlaces(18))
   }, [account, bao])
 
   useEffect(() => {

@@ -28,9 +28,9 @@ const Nav: React.FC = () => {
 			<StyledLink
 				exact
 				activeClassName="active"
-				to={{ pathname: '/vault', search: '?ref=' + refer }}
+				to={{ pathname: '/vaults', search: '?ref=' + refer }}
 			>
-				Vault
+				Vaults
 			</StyledLink>
 			<StyledAbsoluteLink
 				href="https://snapshot.page/#/baovotes.eth"

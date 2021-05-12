@@ -1,5 +1,6 @@
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import { useWallet } from 'use-wallet'
+import { useParams } from 'react-router-dom'
 
 import vaulta from '../../assets/svg/vault-a.svg'
 
@@ -33,42 +34,27 @@ import useDepositVault from '../../hooks/useDepositVault'
 import useVaultBalance from '../../hooks/useVaultBalance'
 import useWitdrawVault from '../../hooks/useWithdrawVault'
 import TokenInput from '../../components/TokenInput'
-import { getVaultContract, getVaultPoolContract } from '../../bao/utils'
+import { 
+	getVaultContract, 
+	getVaultPoolContract,
+	getVaultBaseUpper, 
+} from '../../bao/utils'
 import { getFullDisplayBalance } from '../../utils/formatBalance'
 import baoIcon from '../../assets/img/bao.png'
 
 const RoboVault: React.FC = () => {
+	const { vaultId } = useParams()
 	const {
 		address,
-		balance,
-		baseLower,
-		baseUpper,
-		limitLower,
-		limitUpper,
-		maxTotalSupply,
+		vaultAddress,
 		poolAddress,
-		price,
-		tokenA,
-		tokenB,
-		totalA,
-		totalB,
-		totalSupply,
-		vaultAddress
+		token0,
+		token1,
 	} = {
 		address: '0xb52f322f7534d60807700bd8414d3c498d4cef52',
-		balance: '',
-		baseLower: '',
-		baseUpper: '',
-		limitLower: '',
-		limitUpper: '',
-		maxTotalSupply: '',
 		poolAddress: '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8',
-		price: '',
-		tokenA: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-		tokenB: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-		totalA: '',
-		totalB: '',
-		totalSupply: '',
+		token0: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+		token1: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
 		vaultAddress: '0xb52f322f7534d60807700bd8414d3c498d4cef52'
 	}
 
@@ -76,17 +62,18 @@ const RoboVault: React.FC = () => {
 	const { account } = useWallet()
 	const [onPresentWalletProviderModal] = useModal(<WalletProviderModal />)
 	const bao = useBao()
-	const tokenAName = 'USDC'
-	const tokenBName = 'WETH'
+	const token0Name = 'USDC'
+	const token1Name = 'WETH'
 
 	const vaultContract = useMemo(() => getVaultContract(bao), [bao])
 	const poolContract = useMemo(() => getVaultPoolContract(bao), [bao])
 
-	const vaultSharesName = 'Vault Shares'
 	const vaultShares = useTokenBalance(vaultAddress)
 
-	const tokenBalance = useTokenBalance(poolAddress)
+	const tokenBalance = useTokenBalance(address)
 	const vaultBalance = useVaultBalance()
+
+	const baseUpper = getVaultBaseUpper(vaultContract)
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
@@ -121,10 +108,10 @@ const RoboVault: React.FC = () => {
 													<VaultStats>
 														<h4>Vault Holdings</h4>
 														<StyledValue> {'totalA'} </StyledValue>
-														<Label text={`Total ${tokenAName} in Vault`} />
+														<Label text={`Total ${token0Name} in Vault`} />
 
 														<StyledValue> {'totalB'} </StyledValue>
-														<Label text={`Total ${tokenBName} in Vault`} />
+														<Label text={`Total ${token1Name} in Vault`} />
 													</VaultStats>
 													<VaultStats>
 														<h4>Deposit cap</h4>
@@ -132,20 +119,20 @@ const RoboVault: React.FC = () => {
 														<Label text={`% of Cap Used`} />
 
 														<StyledValue> {'maxTokenA'} </StyledValue>
-														<Label text={`Max ${tokenAName} in Vault`} />
+														<Label text={`Max ${token0Name} in Vault`} />
 
 														<StyledValue> {'maxTokenB'} </StyledValue>
-														<Label text={`Max ${tokenBName} in Vault`} />
+														<Label text={`Max ${token1Name} in Vault`} />
 													</VaultStats>
 													<VaultStats>
 														<h4>Vault positions</h4>
 														<StyledValue> {'tokenPairPrice'} </StyledValue>
-														<Label text={`${tokenAName}/${tokenBName} Price`} />
+														<Label text={`${token0Name}/${token1Name} Price`} />
 
-														<StyledValue> {'baseOrderRange'} </StyledValue>
+														<StyledValue> {'baseLower'} - {'baseUpper'} </StyledValue>
 														<Label text={`Base Order`} />
 
-														<StyledValue> {'limitOrderRange'} </StyledValue>
+														<StyledValue> {'limitLower'} - {'limitUpper'} </StyledValue>
 														<Label text={`Limit Order`} />
 													</VaultStats>
 												</Vault>
@@ -161,7 +148,7 @@ const RoboVault: React.FC = () => {
 								<StyledCardWrapper>
 									<VaultModal>
 										<VaultDeposit
-											max={vaultBalance}
+											max={tokenBalance}
 											vaultContract={vaultContract}
 											poolContract={poolContract}
 											 />
@@ -171,7 +158,7 @@ const RoboVault: React.FC = () => {
 								<StyledCardWrapper>
 									<VaultModal>
 										<VaultWithdraw
-											max={tokenBalance}
+											max={vaultShares}
 											vaultContract={vaultContract}
 											poolContract={poolContract}
 										/>

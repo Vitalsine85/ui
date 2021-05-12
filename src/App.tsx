@@ -12,7 +12,7 @@ import useModal from './hooks/useModal'
 import theme from './theme'
 import Farms from './views/Farms'
 import Home from './views/Home'
-import Vault from './views/Vault'
+import Vaults from './views/Vaults'
 
 const url = new URL(window.location.toString())
 if (url.searchParams.has('ref')) {
@@ -45,8 +45,8 @@ const App: React.FC = () => {
 					<Route path="/farms">
 						<Farms />
 					</Route>
-					<Route path="/vault">
-						<Vault />
+					<Route path="/vaults">
+						<Vaults />
 					</Route>
 				</Switch>
 			</Router>

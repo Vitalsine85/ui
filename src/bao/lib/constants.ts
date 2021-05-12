@@ -3814,3 +3814,25 @@ export interface SupportedPool {
 			'https://sushiswap.fi/token/0x3c9d6c1c73b31c837832c72e04d3152f051fc1a9',
 	},
 ]
+
+export interface SupportedVault {
+	vaultAddress: string
+	poolAddress: string
+	token0: string
+	token1: string
+	vaultName: string
+	vaultToken: string
+	icon: string
+  }
+
+  export const supportedVaults: SupportedVault[] = [
+	{
+		vaultAddress: '0xb52f322f7534d60807700bd8414d3c498d4cef52',
+		poolAddress: '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8',
+		token0: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+		token1: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+		vaultName: 'USDC-WETH',
+		vaultToken: 'AV',
+		icon: '/usdc-eth-vault.png'
+	},
+  ]

@@ -4,6 +4,7 @@ import { supportedPools } from './lib/constants'
 import { Bao } from './Bao'
 import { Contract } from 'web3-eth-contract'
 import { Farm } from '../contexts/Farms'
+import { Vault } from '../contexts/Vaults'
 
 BigNumber.config({
 	EXPONENTIAL_AT: 1000,
@@ -250,20 +251,6 @@ export const getStaked = async (
 	}
 }
 
-export const getVaulted = async (
-	vaultContract: Contract,
-	account: string,
-): Promise<BigNumber> => {
-	try {
-		const { amount } = await vaultContract.methods
-			.userInfo(account)
-			.call()
-		return new BigNumber(amount)
-	} catch {
-		return new BigNumber(0)
-	}
-}
-
 export const getWethPrice = async (bao: Bao): Promise<BigNumber> => {
 	const wethPriceContract = getWethPriceContract(bao)
 	const amount = await wethPriceContract.methods.latestAnswer().call()
@@ -389,6 +376,73 @@ export const getWithdrawableBalance = async (
 			.withdrawableBalance(account, tokenAddress)
 			.call()
 		console.log('withdrawableBalance', amount)
+		return new BigNumber(amount)
+	} catch {
+		return new BigNumber(0)
+	}
+}
+
+//Vaults
+
+export const getVaults = (bao: Bao): Vault[] => {
+	return bao
+		? bao.contracts.vaults.map(
+			({
+				vaultAddress,
+				poolAddress,
+				token0,
+				token1,
+				vaultName,
+				vaultToken,
+				icon,
+			}) => ({
+				vaultAddress,
+				poolAddress,
+				token0,
+				token1,
+				vaultName,
+				vaultToken,
+				icon,
+			}),
+		)
+		: []
+}
+
+export const getVaulted = async (
+	vaultPoolContract: Contract,
+): Promise<BigNumber> => {
+	try {
+		const { amount } = await vaultPoolContract.methods
+			.getTotalAmounts()
+			.call()
+		return new BigNumber(amount)
+	} catch {
+	}
+		return new BigNumber(0)
+}
+
+export const getTotalVaultBalance = async (
+	roboVault: Contract,
+): Promise<BigNumber> => {
+	try {
+		const amount = await roboVault.methods
+			.getTotalAmounts()
+			.call()
+		console.log('vaultBalance', amount)
+		return new BigNumber(amount)
+	} catch {
+		return new BigNumber(0)
+	}
+}
+
+export const getVaultBaseUpper = async (
+	vaultContract: Contract,
+): Promise<BigNumber> => {
+	try {
+		const amount = await vaultContract.methods
+			.baseUpper()
+			.call()
+		console.log('baseUpper', amount)
 		return new BigNumber(amount)
 	} catch {
 		return new BigNumber(0)

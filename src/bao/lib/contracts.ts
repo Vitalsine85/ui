@@ -6,6 +6,8 @@ import {
   contractAddresses,
   supportedPools,
   SupportedPool,
+  SupportedVault,
+  supportedVaults,
 } from './constants'
 
 import UNIV2PairAbi from './abi/uni_v2_lp.json'
@@ -46,6 +48,7 @@ export interface FarmableSupportedPool extends SupportedPool {
 	wethPrice: Contract
 	baoPrice: Contract
 	pools: FarmableSupportedPool[]
+	vaults: SupportedVault[]
 	blockGasLimit: any
 	notifier: any
   
