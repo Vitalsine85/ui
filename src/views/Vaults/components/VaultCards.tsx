@@ -31,6 +31,7 @@ const VaultCards: React.FC = () => {
 		<Tabs>
 			<TabPanel>
 				<StyledCards>
+				{vaults.map((vault, i) => (
 							<React.Fragment key={i}>
 								<FarmCard vault={vault} />
 								{((i + 1) % (cardsPerRow) !== 0) && <StyledSpacer />}
